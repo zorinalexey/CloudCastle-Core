@@ -28,7 +28,7 @@ final class PaginateResource extends AbstractResource
         if ($prevPage < 1) $prevPage = null;
         if ($lastPage == 0) $lastPage = 1;
         
-        if ($from === $total && $to === $total) {
+        if ($from === $total && $to === $total && $total === 0) {
             $to = 0;
             $from = 0;
         }
