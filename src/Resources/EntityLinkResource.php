@@ -22,7 +22,7 @@ final class EntityLinkResource extends AbstractResource
     {
         
         $request = Request::getInstance();
-        $uri = trim($this->prefix, '/') . 'EntityLinkResource.php/' . $this->entity;
+        $uri = trim($this->prefix, '/') . '/' . $this->entity;
         $permission = str_replace('/', '.', $uri . '/' . $action);
         $method = $this->getMethod($action);
         $url = $request->getProto() . '://' . app()->env->app_host . '/' . $uri;
