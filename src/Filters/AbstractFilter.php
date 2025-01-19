@@ -147,16 +147,18 @@ abstract class AbstractFilter
     {
         $values = explode(' ', $search);
         $filters = [];
+        $selectFields = [];
         
         foreach ($this->getFields() as $key => $field) {
             foreach ($values as $i => $value) {
                 if($field = $this->getFieldNameBySearch($field)){
+                    $selectFields[] = $field;
                     $filters["{$key}_{$i}"] = "LOWER({$field}::TEXT) LIKE LOWER({$this->getBindName("%{$value}%")})";
                 }
             }
         }
         
-        $sql = "SELECT * FROM\n\t\t\t{$this->table}\n\t\t\t";
+        $sql = "SELECT\n\t\t\t" . implode(",\n\t\t\t", $selectFields) . "\n\t\tFROM\n\t\t\t{$this->table}\n\t\t\t";
         $sql .= implode("\n\t\t\t", $this->joins) . "\n\t\t";
         $sql .= "WHERE\n\t\t\t" . implode("\n\t\t\tOR ", $filters) . "\n\t\t";
         
