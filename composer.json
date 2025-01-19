@@ -1,0 +1,27 @@
+{
+    "name": "cloud-castle/framework-core",
+    "description": "Core",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "CloudCastle\\Core\\": "src/"
+        },
+        "files": [
+            "src/functions/func.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Алексей Зорин",
+            "email": "zorinalexey59292@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=8.3",
+        "predis/predis": "^2.3",
+        "guzzle/guzzle": "^3.9",
+        "guzzle/http": "*"
+    }
+}
