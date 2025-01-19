@@ -55,14 +55,12 @@ final class Router
     
     private static function getRequestParam (string $key, Request $request): mixed
     {
-        $param = null;
-        
         foreach ((array) $request as $name => $value) {
-            if ($name == $key) {
-                $param = $value;
+            if ((string)$name === $key) {
+                return $value;
             }
         }
         
-        return $param;
+        return null;
     }
 }

@@ -28,7 +28,9 @@ namespace CloudCastle\Core {
         
         foreach ($routes as $pattern => $route) {
             if (preg_match($pattern, getRequestPath(), $matches) && isset($route['actions'][$requestMethod]) && $method = $route['actions'][$requestMethod]) {
-                $requestData = [];
+                $requestData = [
+                    'files' => $_FILES,
+                ];
                 $route['action'] = $method;
                 
                 foreach ($matches as $key => $value) {
