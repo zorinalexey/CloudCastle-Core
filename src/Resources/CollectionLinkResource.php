@@ -21,7 +21,7 @@ final class CollectionLinkResource extends AbstractResource
     private function getLink (string $action): array
     {
         $request = Request::getInstance();
-        $uri = trim($this->prefix, '/') . 'CollectionLinkResource.php/' . $this->entity;
+        $uri = trim($this->prefix, '/') . '/' . $this->entity;
         $permission = str_replace('/', '.', $uri . '/' . $action);
         [$method, $suffix] = $this->getParams($action);
         $url = $request->getProto() . '://' . app()->env->app_host . '/' . $uri . $suffix;
