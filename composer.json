@@ -21,7 +21,6 @@
     "require": {
         "php": ">=8.3",
         "predis/predis": "^2.3",
-        "guzzle/guzzle": "^3.9",
         "guzzle/http": "*",
         "ext-mbstring": "*"
     }
