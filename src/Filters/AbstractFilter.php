@@ -156,7 +156,7 @@ abstract class AbstractFilter
             }
         }
         
-        $sql = "SELECT\n\t\t\t" . implode(",\n\t\t\t", $this->getFields()) . "\n\t\tFROM\n\t\t\t{$this->table}\n\t\t\t";
+        $sql = "SELECT * FROM\n\t\t\t{$this->table}\n\t\t\t";
         $sql .= implode("\n\t\t\t", $this->joins) . "\n\t\t";
         $sql .= "WHERE\n\t\t\t" . implode("\n\t\t\tOR ", $filters) . "\n\t\t";
         
