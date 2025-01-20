@@ -60,7 +60,7 @@ abstract class AbstractFilter
     
     protected function setDefaultSort (array &$filters): void
     {
-        if (!$filters['sort']) {
+        if (!isset($filters['sort']) || empty($filters['sort'])) {
             if (in_array('name', $this->getAllFieldNames())) {
                 $filters['sort']['name'] = 'ASC';
             } else {
