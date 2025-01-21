@@ -118,13 +118,13 @@ final class EmployeeService extends AbstractService
         $result = [];
         
         foreach ($data['ids'] as $id) {
-            $result[$id] = $this->restore($id);
+            $result[$id] = $this->restore($id, 'restore_group');
         }
         
         return $result;
     }
     
-    public function restore (string $id): array|null
+    public function restore (string $id, string $action = 'restore'): array|null
     {
         $before = $this->view($id);
         $sql = "UPDATE " . EmployeeFilter::getTable() . " SET deleted_at = NULL, updated_at = now() WHERE id = :id";
@@ -134,7 +134,7 @@ final class EmployeeService extends AbstractService
         if ($result) {
             app()->cache->flush($id);
             $after = $this->view($id);
-            $this->setHistory($before, $after, 'restore');
+            $this->setHistory($before, $after, $action);
             
             return $after;
         }

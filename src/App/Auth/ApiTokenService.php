@@ -68,7 +68,7 @@ final class ApiTokenService extends AbstractService
         return null;
     }
     
-    public function restore (string $id): array|null
+    public function restore (string $id, string $action = 'restore'): array|null
     {
         $before = $this->view($id);
         $sql = "UPDATE " . AuthApiFilter::getTable() . " SET deleted_at = NULL, updated_at = now() WHERE id = :id";
@@ -78,7 +78,7 @@ final class ApiTokenService extends AbstractService
         if ($result) {
             app()->cache->clear();
             $after = $this->view($id);
-            $this->setHistory($before, $after, 'restore');
+            $this->setHistory($before, $after, $action);
             
             return $after;
         }
@@ -123,7 +123,7 @@ final class ApiTokenService extends AbstractService
         $result = [];
         
         foreach ($data as $item) {
-            $result[$item] = $this->restore($item);
+            $result[$item] = $this->restore($item, 'restore_group');
         }
         
         return $result;
