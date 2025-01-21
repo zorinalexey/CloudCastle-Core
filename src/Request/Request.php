@@ -3,8 +3,7 @@
 namespace CloudCastle\Core\Request;
 
 use stdClass;
-use function CloudCastle\Core\getRequestMethod;
-use function CloudCastle\Core\getRequestPath;
+use function CloudCastle\Core\{config, getRequestMethod, getRequestPath};
 
 final class Request extends stdClass
 {
@@ -52,6 +51,10 @@ final class Request extends stdClass
     
     public function getProto (): string
     {
+        if($proto = config('app')['protocol']??null){
+            return $proto;
+        }
+        
         return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (int) $_SERVER['SERVER_PORT'] === 443 ? 'https' : 'http';
     }
     
