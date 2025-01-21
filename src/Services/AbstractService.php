@@ -22,11 +22,11 @@ abstract class AbstractService
     
     abstract public function create (array $data): array|null;
     
-    abstract public function restore (string $id): array|null;
+    abstract public function restore (string $id, string $action = 'restore'): array|null;
     
-    abstract public function softDelete (string $id): bool;
+    abstract public function softDelete (string $id, string $action = 'soft_delete'): bool;
     
-    abstract public function hardDelete (string $id): bool;
+    abstract public function hardDelete (string $id, string $action = 'hard_delete'): bool;
     
     abstract public function restoreGroup (array $data): array;
     
