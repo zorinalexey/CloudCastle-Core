@@ -150,8 +150,8 @@ abstract class AbstractFilter
         
         foreach ($this->getFields() as $key => $field) {
             foreach ($values as $i => $value) {
-                if($field = $this->getFieldNameBySearch($field)){
-                    $filters["{$key}_{$i}"] = "LOWER({$field}::TEXT) LIKE {$this->getBindName('%'.mb_strtolower(trim($value).'%'))}";
+                if($fieldName = $this->getFieldNameBySearch($field)){
+                    $filters["{$key}_{$i}"] = "LOWER({$fieldName}::TEXT) LIKE {$this->getBindName('%'.mb_strtolower(trim($value).'%'))}";
                 }
             }
         }
