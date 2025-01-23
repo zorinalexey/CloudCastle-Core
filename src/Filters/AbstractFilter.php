@@ -156,7 +156,7 @@ abstract class AbstractFilter
             }
         }
         
-        $this->condition[] = "AND (\n\t".implode("\n\tOR ", $filters).")";
+        $this->condition[] = "AND (\n\t\t".implode("\n\t\tOR ", $filters)."\n\t)";
     }
     
     protected function getFieldNameBySearch (string $fieldName): string|null
