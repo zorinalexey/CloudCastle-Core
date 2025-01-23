@@ -156,15 +156,7 @@ abstract class AbstractFilter
             }
         }
         
-        $sql = "SELECT\n\t\t\t" . implode(",\n\t\t\t", $this->getFields()) . "\n\t\tFROM\n\t\t\t{$this->table}\n\t\t\t";
-        $sql .= implode("\n\t\t\t", $this->joins) . "\n\t\t";
-        $sql .= "WHERE\n\t\t\t" . implode("\n\t\t\tOR ", $filters) . "\n\t\t";
-        
-        if ($fields = $this->getGroupBy()) {
-            $sql .= "GROUP BY\n\t\t\t" . implode(",\n\t\t\t", $fields);
-        }
-        
-        $this->table = "(\n\t\t{$sql}\n\t) ".preg_replace('~([\w.]+) AS (\w+)~ui', 'AS $2', $this->table)?:' as subquery';
+        $this->condition[] = "AND (".implode("\nOR", $filters).")";
     }
     
     protected function getFieldNameBySearch (string $fieldName): string|null
