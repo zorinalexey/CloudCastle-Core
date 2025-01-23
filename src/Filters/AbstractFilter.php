@@ -156,7 +156,7 @@ abstract class AbstractFilter
             }
         }
         
-        $sql = "SELECT\n\t\t\t" . implode(",\n\t\t\t", $this->getSearchFields()) . "\n\t\tFROM\n\t\t\t{$this->table}\n\t\t\t";
+        $sql = "SELECT\n\t\t\t" . implode(",\n\t\t\t", $this->getFields()) . "\n\t\tFROM\n\t\t\t{$this->table}\n\t\t\t";
         $sql .= implode("\n\t\t\t", $this->joins) . "\n\t\t";
         $sql .= "WHERE\n\t\t\t" . implode("\n\t\t\tOR ", $filters) . "\n\t\t";
         
@@ -170,7 +170,6 @@ abstract class AbstractFilter
     protected function getFieldNameBySearch (string $fieldName): string|null
     {
         $patterns = [
-            '~^([\w.:"]+)( (.+))?$~ui' => '$1',
             '~^([\w.:"]+) AS (\w+)$~ui' => '$1',
             '~^([\w.:"]+)$~ui' => '$1',
         ];
@@ -252,9 +251,7 @@ abstract class AbstractFilter
         $fields = [];
         
         foreach ($this->getFields() as $field) {
-            if($field = $this->getFieldNameBySearch($field)) {
-                $fields[] = $field;
-            }
+            $fields[] = $field;
         }
         
         return $fields;
