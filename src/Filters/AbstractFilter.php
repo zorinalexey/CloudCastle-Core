@@ -151,7 +151,7 @@ abstract class AbstractFilter
         foreach ($this->getFields() as $key => $field) {
             foreach ($values as $i => $value) {
                 if($field = $this->getFieldNameBySearch($field)){
-                    $filters["{$key}_{$i}"] = "LOWER({$field}::TEXT) LIKE LOWER({$this->getBindName("%{$value}%")})";
+                    $filters["{$key}_{$i}"] = "LOWER({$field}) LIKE LOWER({$this->getBindName("%{$value}%")})";
                 }
             }
         }
@@ -170,8 +170,7 @@ abstract class AbstractFilter
     protected function getFieldNameBySearch (string $fieldName): string|null
     {
         $patterns = [
-            '~^([\w.:"]+) AS (\w+)$~ui' => '$1',
-            '~^([\w.:"]+)$~ui' => '$1',
+            '~^([\w."]+)( (.+))?$~ui' => '$1::TEXT',
         ];
         
         foreach ($patterns as $pattern => $replacement) {
