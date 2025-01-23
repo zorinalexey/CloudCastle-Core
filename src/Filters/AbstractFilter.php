@@ -151,7 +151,7 @@ abstract class AbstractFilter
         foreach ($this->getFields() as $key => $field) {
             foreach ($values as $i => $value) {
                 if($field = $this->getFieldNameBySearch($field)){
-                    $filters["{$key}_{$i}"] = "LOWER({$field}) LIKE {$this->getBindName('%'.mb_strtolower(trim($value).'%'))}";
+                    $filters["{$key}_{$i}"] = "LOWER({$field}::TEXT) LIKE {$this->getBindName('%'.mb_strtolower(trim($value).'%'))}";
                 }
             }
         }
@@ -170,7 +170,7 @@ abstract class AbstractFilter
     protected function getFieldNameBySearch (string $fieldName): string|null
     {
         $patterns = [
-            '~^([\w."]+)( (.+))?$~ui' => '$1::TEXT',
+            '~^([\w."]+)( (.+))?$~ui' => '$1',
         ];
         
         foreach ($patterns as $pattern => $replacement) {
@@ -250,7 +250,7 @@ abstract class AbstractFilter
         $fields = [];
         
         foreach ($this->getFields() as $field) {
-            if(!str_contains($field, 'DISTINCT')) {
+            if($field = $this->getFieldNameBySearch($field)) {
                 $fields[] = $field;
             }
         }
