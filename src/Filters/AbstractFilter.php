@@ -228,8 +228,6 @@ abstract class AbstractFilter
     
     final protected function sort (array $sorts): void
     {
-        $fields = $this->getAllFieldNames();
-        
         foreach ($sorts as $name => $direction) {
             $method = "sort_{$name}";
             $direction = mb_strtoupper($direction);
