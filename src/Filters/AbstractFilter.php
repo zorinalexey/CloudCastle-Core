@@ -240,20 +240,7 @@ abstract class AbstractFilter
             
             if (method_exists($this, $method)) {
                 $this->{$method}($direction);
-            } elseif (in_array($name, $fields)) {
-                $this->order[] = "{$name} {$direction}";
             }
         }
-    }
-    
-    private function getSearchFields (): array
-    {
-        $fields = [];
-        
-        foreach ($this->getFields() as $field) {
-            $fields[] = $field;
-        }
-        
-        return $fields;
     }
 }
