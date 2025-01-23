@@ -170,7 +170,9 @@ abstract class AbstractFilter
     protected function getFieldNameBySearch (string $fieldName): string|null
     {
         $patterns = [
-            '~^([\w."]+)( (.+))?$~ui' => '$1',
+            '~^([\w.:"]+)( (.+))?$~ui' => '$1',
+            '~([\w.:"]+) AS (\w+)~ui' => '$1',
+            '~([\w:]+)~ui' => '$1',
         ];
         
         foreach ($patterns as $pattern => $replacement) {
