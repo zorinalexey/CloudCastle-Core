@@ -25,10 +25,11 @@ final class Request extends stdClass
     
     private function setParams (): void
     {
+        $files = $this->getFiles();
         $json = json_decode(file_get_contents('php://input'), true) ?? [];
         
         $data = match ($this->method) {
-            'POST', 'PUT', 'PATCH', 'DELETE' => [...$_GET, ...$_POST, ...$json,],
+            'POST', 'PUT', 'PATCH', 'DELETE' => [...$_GET, ...$_POST, ...$json, ...$files],
             default => [...$json, ...$_GET,],
         };
         
@@ -91,5 +92,31 @@ final class Request extends stdClass
         }
         
         return $ip;
+    }
+    
+    private function getFiles (): array
+    {
+        if($_FILES) {
+            $files = [];
+            
+            foreach ($_FILES as $key => $file) {
+                if (is_array($_FILES[$key]['name'])) {
+                    foreach ($_FILES[$key] as $name => $i) {
+                        $file['name'] = $_FILES[$key]['name'][$i];
+                        $file['tmp_name'] = $_FILES[$key]['tmp_name'][$i];
+                        $file['type'] = $_FILES[$key]['type'][$i];
+                        $file['size'] = $_FILES[$key]['size'][$i];
+                        $file['error'] = $_FILES[$key]['error'][$i];
+                        $files[$key][] = new UploadFile($file);
+                    }
+                }else{
+                    $files[$key][] = new UploadFile($file);
+                }
+            }
+            
+            return $files;
+        }
+        
+        return [];
     }
 }

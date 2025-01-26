@@ -2,6 +2,7 @@
 
 namespace CloudCastle\Core\Request;
 
+use CloudCastle\Core\Exceptions\UploadFileException;
 use CloudCastle\Core\Exceptions\ValidateException;
 use DateMalformedStringException;
 use DateTime;
@@ -180,6 +181,21 @@ abstract class AbstractRequest extends stdClass
             $this->{$property} = (new DateTime(date("Y-n-d H:i:s", (int) $this->{$property})))->getTimestamp();
         } else {
             $this->errors[$property] = trans('validation', 'is not a date or time', [':entity' => $property]);
+        }
+    }
+    
+    private function file (string $property): void
+    {
+        if(is_array($this->{$property})){
+            foreach ($this->{$property} as $file){
+                if(!($file instanceof UploadFile)){
+                    $this->errors[$property] = trans('validation', 'File :entity not upload', [':entity' => $property]);
+                }
+                
+                if($file->error !== 0){
+                    $this->errors[$property] = trans('validation', "Error upload file {$property}");
+                }
+            }
         }
     }
 }
