@@ -6,8 +6,10 @@ namespace CloudCastle\Core {
     use CloudCastle\Core\Config\Config;
     use CloudCastle\Core\Config\Env;
     use CloudCastle\Core\Controllers\ErrorController;
+    use CloudCastle\Core\Exceptions\StorageException;
     use CloudCastle\Core\Lang\Lang;
     use CloudCastle\Core\Request\Request;
+    use CloudCastle\Core\Storage\StorageInterface;
     
     function getRequestPath (): string
     {
@@ -149,5 +151,16 @@ namespace CloudCastle\Core {
         }
         
         return "{$name}.{$key}";
+    }
+    
+    function getDiskUsage(string $diskName, array $diskConfig): StorageInterface
+    {
+        $disk = config('filesystem')[$diskName]??null;
+        
+        if(class_exists($disk['class']) && ($obj = new ($disk['class'])(...$diskConfig)) && $obj instanceof StorageInterface){
+            return $obj;
+        }
+        
+        throw new StorageException("Disk [$diskName] not configured");
     }
 }

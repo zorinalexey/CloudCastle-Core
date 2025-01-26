@@ -3,9 +3,8 @@
 namespace CloudCastle\Core\Request;
 
 use CloudCastle\Core\Exceptions\StorageException;
-use CloudCastle\Core\Storage\Disk;
 use CloudCastle\Core\Storage\StorageInterface;
-use function CloudCastle\Core\config;
+use function CloudCastle\Core\{config, getDiskUsage};
 
 class UploadFile
 {
@@ -35,9 +34,14 @@ class UploadFile
         $disks = config('filesystem')['disks'];
         
         if(isset($disks[$name])) {
-            $this->disk = Disk::getDiskUsage($name, $disks[$name]['config']??[]);
+            $this->disk = getDiskUsage($name, $disks[$name]['config']??[]);
         }
         
         return $this;
+    }
+    
+    public function save(string $path): string
+    {
+        return $this->disk->file()->create($path, file_get_contents($this->tmp_name));
     }
 }
