@@ -4,6 +4,7 @@ namespace CloudCastle\Core\Request;
 
 use CloudCastle\Core\Exceptions\UploadFileException;
 use CloudCastle\Core\Exceptions\ValidateException;
+use CloudCastle\Core\Hash\Hash;
 use DateMalformedStringException;
 use DateTime;
 use stdClass;
@@ -197,5 +198,10 @@ abstract class AbstractRequest extends stdClass
                 }
             }
         }
+    }
+    
+    private function password (string $property): void
+    {
+        $this->{$property} = Hash::make($this->{$property});
     }
 }
