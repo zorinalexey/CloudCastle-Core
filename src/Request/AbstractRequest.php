@@ -46,7 +46,7 @@ abstract class AbstractRequest extends stdClass
         foreach ($this->rules() as $property => $rule) {
             if (property_exists($this, $property) || str_contains($rule, 'required')) {
                 $this->validate($property, $rule);
-                $data[$property] = &$this->{$property};
+                $data[$property] = $this->{$property};
             } else {
                 $data[$property] = null;
             }
