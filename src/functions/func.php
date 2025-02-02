@@ -146,7 +146,7 @@ namespace CloudCastle\Core {
     {
         $langObj = Lang::getInstance();
         
-        if (($arr = $langObj->{$name}) && is_array($arr) && isset($arr[$key])) {
+        if (isset($langObj?->{$name}) && ($arr = $langObj->{$name}) && is_array($arr) && isset($arr[$key])) {
             return str_replace(array_keys($params), array_values($params), $arr[$key]);
         }
         

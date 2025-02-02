@@ -10,7 +10,7 @@ final class Router
 {
     public static function run (string $controller, array $middlewares, array $action): array|object
     {
-        $method = $action['method'];
+        $method = $action['method']??'GET';
         
         if (class_exists($controller) && method_exists($controller, $method)) {
             
